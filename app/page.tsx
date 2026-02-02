@@ -1,11 +1,5 @@
-import React from 'react'
+import { redirect } from "next/navigation";
 
-const page:React.FC = () => {
-  return (
-    <div className='text-2xl font-semibold'>
-      mirmonir
-    </div>
-  )
+export default function Home():never{
+  redirect('/home')
 }
-
-export default page
