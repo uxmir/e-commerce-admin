@@ -15,7 +15,7 @@ const NavLink: React.FC<itemProps> = ({ href, item, link, Icon, childs }) => {
         <Link href={href}>
           <div
             onClick={handleChild}
-            className={`py-2 w-full  hover:bg-blue-600 hover:text-white rounded capitalize flex gap-x-2 items-center px-4 ${pathName === link ? "bg-blue-600 text-white" : "text-gray-700"}`}
+            className={`py-2 w-full  hover:bg-blue-600 dark:hover:bg-[#15104B] hover:text-white rounded capitalize flex gap-x-2 items-center px-4 ${pathName === link ? "bg-blue-600 dark:bg-[#15104B] text-white" : "text-gray-700 dark:text-white"}`}
           >
             {Icon && <Icon size={18} />}
             <span>{item}</span>
@@ -28,7 +28,7 @@ const NavLink: React.FC<itemProps> = ({ href, item, link, Icon, childs }) => {
             {childs?.map((data) => (
               <div
                 key={data.id}
-                className={`px-3 py-2 w-full rounded  hover:bg-blue-600 hover:text-white ${pathName === data.child_link ? "bg-blue-600 text-white" : "text-gray-700"}`}
+                className={`px-3 py-2 w-full rounded  hover:bg-blue-600 dark:hover:bg-[#15104B] hover:text-white ${pathName === data.child_link ? "bg-blue-600  dark:bg-[#15104B] text-white" : "text-gray-700 dark:text-white"}`}
               >
                 <Link href={data.child_link}>
                   <div>{data.data}</div>

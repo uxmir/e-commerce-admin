@@ -41,7 +41,7 @@ const SideBar: React.FC = () => {
   return (
     <>
       <div
-        className={`fixed px-4 top-0 z-[9999] hidden lg:block  left-0 bg-white transition-all duration-700 h-[100vh] border-r border-gray-200  overflow-y-auto ${sidebar === true ? "w-64" : "w-0 pointer-events-none"}`}
+        className={`fixed px-4 top-0 z-[9999] hidden lg:block  left-0 bg-white dark:bg-[#33304E] transition-all duration-700 h-[100vh] border-r border-gray-200  overflow-y-auto ${sidebar === true ? "w-64" : "w-0 pointer-events-none"}`}
       >
         <div className="flex flex-col gap-y-2 mt-5">
           {navItems?.map((data) => (
@@ -69,10 +69,11 @@ const SideBar: React.FC = () => {
         ></div>
       )}
       <div
-        className={` w-2/3 sm:w-1/3 h-full transition-all duration-500 fixed left-0 top-0 z-[9999] bg-white  ${sidebarResponsive === true ? "-translate-x-0" : "-translate-x-full"}`}
+        className={` w-2/3 sm:w-1/3 h-full transition-all duration-500 fixed left-0 top-0 z-[9999] bg-white dark:bg-[#1D1B32]  ${sidebarResponsive === true ? "-translate-x-0" : "-translate-x-full"}`} 
       >
-        {navItems?.map((data) => (
-          <div key={data.id} className="px-4 mt-5">
+      <div className="mt-5">
+              {navItems?.map((data) => (
+          <div key={data.id} className="px-4">
             <NavLink
               href={data.link!}
               item={data.item}
@@ -82,6 +83,7 @@ const SideBar: React.FC = () => {
             />
           </div>
         ))}
+      </div>
       </div>
     </>
   );
