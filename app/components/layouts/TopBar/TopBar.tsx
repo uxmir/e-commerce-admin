@@ -1,13 +1,15 @@
 "use client";
 import { useLayout } from "@/app/features/SidebarProvider/SidebarProvider";
-import { MenuIcon, Moon, PanelRight, Sun } from "lucide-react";
+import { Bell, MenuIcon, Moon, PanelRight, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import React, { useEffect, useState } from "react";
+import ListPopover from "../../ui/ListPopover/ListPopover";
 const TopBar: React.FC = () => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState<boolean>(false);
+  const [listNotification, setListNotification] = useState<boolean>(false);
   useEffect(() => {
-  setMounted(true);
+    setMounted(true);
   }, []);
   const { sidebar, handleSidebar, openSidebar } = useLayout();
   if (!mounted) {
@@ -27,15 +29,117 @@ const TopBar: React.FC = () => {
         <PanelRight onClick={handleSidebar} className="hidden lg:block" />
         <MenuIcon onClick={openSidebar} className="block lg:hidden" />
       </div>
-      <div>
-        {theme === "light" && (
-          <Moon onClick={() => setTheme("dark")} className={``} />
-        )}
-        {theme === "dark" && (
-          <Sun onClick={() => setTheme("light")} className={` `} />
-        )}
+      <div className="flex gap-x-4 items-center">
+        <div>
+          {theme === "light" && (
+            <Moon size={18} onClick={() => setTheme("dark")} className={``} />
+          )}
+          {theme === "dark" && (
+            <Sun size={18} onClick={() => setTheme("light")} className={` `} />
+          )}
+        </div>
+        <div className="relative">
+          <Bell
+            onClick={() => setListNotification(!listNotification)}
+            className="text-blue-600 dark:text-white"
+          />
+          <div className="absolute top-[-4px] left-3 w-4 h-4 rounded-full flex justify-center items-center bg-green-600 text-white text-[8px]">
+            10
+          </div>
+          <ListPopover isShow={listNotification} customClass="h-[200px] ">
+            <NotificationList/>
+          </ListPopover>
+        </div>
+        <div className="w-8 h-8 rounded-full bg-green-200 flex justify-center items-center text-green-600">
+          M
+        </div>
       </div>
     </div>
   );
 };
 export default TopBar;
+
+interface listProps {
+  id: number;
+  list_id: number;
+  name: string;
+  order_type: string;
+  date: string;
+  time: string;
+}
+const listData: listProps[] = [
+  {
+    id: 1,
+    list_id: 2055,
+    name: "John Doe",
+    order_type: "new",
+    date: "10 Jan 2026",
+    time: "10:30 PM",
+  },
+  {
+    id: 2,
+    list_id: 2056,
+    name: "Sarah Khan",
+    order_type: "pending",
+    date: "11 Jan 2026",
+    time: "02:15 PM",
+  },
+  {
+    id: 3,
+    list_id: 2057,
+    name: "Rahat Kabir",
+    order_type: "delivered",
+    date: "12 Jan 2026",
+    time: "09:00 AM",
+  },
+  {
+    id: 4,
+    list_id: 2058,
+    name: "Anika Tabassum",
+    order_type: "cancelled",
+    date: "12 Jan 2026",
+    time: "11:45 PM",
+  },
+  {
+    id: 5,
+    list_id: 2059,
+    name: "Tanvir Ahmed",
+    order_type: "new",
+    date: "13 Jan 2026",
+    time: "05:20 PM",
+  },
+  {
+    id: 6,
+    list_id: 2060,
+    name: "Mehedi Hasan",
+    order_type: "processing",
+    date: "14 Jan 2026",
+    time: "08:10 PM",
+  }
+];
+const NotificationList: React.FC = () => {
+  return (
+    <>
+      {listData?.map((data) => (
+        <div key={data.id} className="flex gap-x-2 items-start mt-5">
+          <div className="w-8 h-8 uppercase rounded-full bg-green-200 text-green-600 flex justify-center items-center">
+            {data?.name.charAt(0)}
+          </div>
+          <div className="flex flex-col gap-2 capitalize text-sm text-gray-600 dark:text-white">
+            <span>
+              {data?.name} has ordered on {data?.list_id}
+            </span>
+            <span>
+              {" "}
+              <span className="px-2 py-1 text-[10px] rounded bg-green-600 text-white">
+                {data?.order_type}
+              </span>{" "}
+              {data?.date}
+              {data?.time}
+            </span>
+          </div>
+        </div>
+      ))}
+    </>
+  );
+};

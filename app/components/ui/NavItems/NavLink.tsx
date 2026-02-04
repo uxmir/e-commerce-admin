@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from "react";
-import { itemProps } from "../../types/nav";
+import { itemProps } from "../../../types/nav";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 const NavLink: React.FC<itemProps> = ({ href, item, link, Icon, childs }) => { 

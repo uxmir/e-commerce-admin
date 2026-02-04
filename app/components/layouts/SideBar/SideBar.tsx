@@ -3,7 +3,7 @@ import { useLayout } from "@/app/features/SidebarProvider/SidebarProvider";
 import React, { useState } from "react";
 import { items } from "../../../types/nav";
 import { CatIcon, HomeIcon } from "lucide-react";
-import NavLink from "../../NavItems/NavLink";
+import NavLink from "../../ui/NavItems/NavLink";
 const navItems: items[] = [
   {
     id: 1,
