@@ -4,10 +4,14 @@ import { Bell, MenuIcon, Moon, PanelRight, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import React, { useEffect, useState } from "react";
 import ListPopover from "../../ui/ListPopover/ListPopover";
+import { useColorStatus } from "@/app/CustomHooks/useColorStatus";
+import { useRandomColor } from "@/app/CustomHooks/useRandomColor";
+import  Link  from "next/link";
 const TopBar: React.FC = () => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState<boolean>(false);
   const [listNotification, setListNotification] = useState<boolean>(false);
+  const [profilePopup, setProfilePopup] = useState<boolean>(false);
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -44,14 +48,25 @@ const TopBar: React.FC = () => {
             className="text-blue-600 dark:text-white"
           />
           <div className="absolute top-[-4px] left-3 w-4 h-4 rounded-full flex justify-center items-center bg-green-600 text-white text-[8px]">
-            10
+            {listData?.length}
           </div>
           <ListPopover isShow={listNotification} customClass="h-[200px] ">
-            <NotificationList/>
+            <NotificationList />
           </ListPopover>
         </div>
-        <div className="w-8 h-8 rounded-full bg-green-200 flex justify-center items-center text-green-600">
-          M
+        <div className="relative">
+          <div
+            onClick={() => setProfilePopup(!profilePopup)}
+            className="w-8 h-8 rounded-full bg-green-200 flex justify-center items-center text-green-600 cursor-pointer"
+          >
+            M
+          </div>
+          <ListPopover isShow={profilePopup} customClass="py-6 h-auto ">
+            <div className="flex flex-col gap-y-3 text-gray-600 dark:text-white font-medium">
+             <Link href={'#'}>My Profile</Link>
+             <span className="text-red-600">Logout</span>
+            </div>
+          </ListPopover>
         </div>
       </div>
     </div>
@@ -67,6 +82,7 @@ interface listProps {
   date: string;
   time: string;
 }
+
 const listData: listProps[] = [
   {
     id: 1,
@@ -115,14 +131,22 @@ const listData: listProps[] = [
     order_type: "processing",
     date: "14 Jan 2026",
     time: "08:10 PM",
-  }
+  },
 ];
 const NotificationList: React.FC = () => {
+  const { getStyle } = useColorStatus();
+  const { getColor } = useRandomColor();
   return (
     <>
       {listData?.map((data) => (
         <div key={data.id} className="flex gap-x-2 items-start mt-5">
-          <div className="w-8 h-8 uppercase rounded-full bg-green-200 text-green-600 flex justify-center items-center">
+          <div
+            style={{
+              backgroundColor: `${getColor()}30`,
+              color: `${getColor()}`,
+            }}
+            className={`w-8 h-8 uppercase rounded-full font-medium flex justify-center items-center`}
+          >
             {data?.name.charAt(0)}
           </div>
           <div className="flex flex-col gap-2 capitalize text-sm text-gray-600 dark:text-white">
@@ -131,7 +155,9 @@ const NotificationList: React.FC = () => {
             </span>
             <span>
               {" "}
-              <span className="px-2 py-1 text-[10px] rounded bg-green-600 text-white">
+              <span
+                className={`px-2 py-1 text-[10px] rounded ${getStyle(data?.order_type)}`}
+              >
                 {data?.order_type}
               </span>{" "}
               {data?.date}
