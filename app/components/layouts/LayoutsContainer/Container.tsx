@@ -11,7 +11,7 @@ const Container:React.FC<{children:ReactNode}> = ({children}) => {
     <TopBar/>
     <div className='flex'>
     <SideBar/>
-      <main className={` flex-1 bg-blue-50/50 dark:bg-[#1D1B32] transition-all duration-700 px-10  pt-20 w-full min-h-[100vh] ${sidebar===true?'lg:ml-64':'ml-0'}`}>
+      <main className={` flex-1 bg-blue-50/50 dark:bg-[#1D1B32] transition-all duration-700 px-10  pt-20 w-full min-h-[200vh] ${sidebar===true?'lg:ml-64':'ml-0'}`}>
         {children}
       </main>
     </div>

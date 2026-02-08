@@ -85,7 +85,7 @@ const OverviewTable = () => {
     },
     {
       header: "Actions",
-      key: "actions",
+      key: "action",
       render: (row: any) => (
         <div className="flex justify-end items-center gap-x-2">
           <Edit size={16} />
@@ -117,7 +117,7 @@ const OverviewTable = () => {
   ];
   return (
     <>
-      <TableComponent columns={tableColumns} data={tableData} />
+      <TableComponent  sortIcon={true} columns={tableColumns} data={tableData} />
     </>
   );
 };
