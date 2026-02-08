@@ -11,7 +11,7 @@ import {
 interface tableColumns {
   header: string;
   key: any;
-  render:(row:any)=>React.ReactNode
+  render?:(row:any)=>React.ReactNode
 }
 interface tableProps {
   columns: tableColumns[];
@@ -22,9 +22,9 @@ const TableComponent: React.FC<tableProps> = ({ data, columns }) => {
     <>
       <Table>
         <TableHeader className="bg-gray-300">
-          <TableRow>
+          <TableRow className="">
             {columns?.map((col, index) => (
-              <TableHead key={index}>{col.header}</TableHead>
+              <TableHead className={` px-5 py-2 text-sm sm:text-base capitalize font-medium ${index===columns.length-1?'text-end':''}`} key={index}>{col.header}</TableHead>
             ))}
           </TableRow>
         </TableHeader>
@@ -33,7 +33,7 @@ const TableComponent: React.FC<tableProps> = ({ data, columns }) => {
             data?.map((row, index) => (
               <TableRow key={index}>
                 {columns?.map((col, index) => (
-                  <TableCell key={index}>{row[col.key]}</TableCell>
+                  <TableCell className={` px-5 py-2 text-sm sm:text-base capitalize  ${index===columns.length-1?'text-end':''}`}  key={index}>{col.render?col.render(row):row[col.key]}</TableCell>
                 ))}
               </TableRow>
             ))
