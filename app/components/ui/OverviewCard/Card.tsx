@@ -10,8 +10,8 @@ interface cardProps {
   Icon: React.ComponentType<{ size: number }>;
   container_color?: string;
   icon_color?: string;
-  amount_color?: string;
   body_text_color?: string;
+  border_color?:string
 }
 const Card: React.FC<cardProps> = ({
   title,
@@ -22,16 +22,16 @@ const Card: React.FC<cardProps> = ({
   Icon,
   container_color = "bg-white dark:bg-black",
   icon_color = "text-white dark:text-gray-800 bg-black dark:bg-white",
-  amount_color = "text-gray-800 dark:text-white",
   body_text_color = "text-gray-600 dark:text-white",
+  border_color="border-gray-800 dark:border-gray-100"
 }) => {
   return (
     <>
       <div
-        className={`px-6 py-4  w-full rounded-2xl flex flex-col ${container_color}`}
+        className={`px-6 py-4 border-b-4 ${border_color} w-full rounded-2xl flex flex-col ${container_color}`}
       >
         <div className="flex justify-between items-center w-full">
-          <span className=" text-sm sm:text-lg capitalize font-medium">
+          <span className={`text-sm sm:text-lg capitalize font-medium ${body_text_color}`}>
             {title}
           </span>
           <div
@@ -41,9 +41,9 @@ const Card: React.FC<cardProps> = ({
           </div>
         </div>
         <span
-          className={`font-semibold text-base mt-3 sm:text-xl ${amount_color}`}
+          className={`font-semibold text-base mt-3 sm:text-xl ${body_text_color}`}
         >
-          ${total_amount}
+          {total_amount}
         </span>
         <div
           className={`flex items-center gap-3 ${body_text_color} text-xs mt-1 font-medium`}
