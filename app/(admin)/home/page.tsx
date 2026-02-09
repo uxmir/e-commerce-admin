@@ -79,6 +79,10 @@ const OverviewTable = () => {
       header: "Price",
       key: "price",
     },
+        {
+      header: "Date",
+      key: "date",
+    },
     {
       header: "Status",
       key: "status",
@@ -94,27 +98,55 @@ const OverviewTable = () => {
     },
   ];
   const tableData = [
-    {
-      name: "Mir monir",
-      price: "120.00",
-      status: "active",
-    },
-    {
-      name: "Mir monir",
-      price: "120.00",
-      status: "active",
-    },
-    {
-      name: "Mir monir",
-      price: "120.00",
-      status: "active",
-    },
-    {
-      name: "Mir monir",
-      price: "120.00",
-      status: "active",
-    },
-  ];
+  {
+    id: 1,
+    name: "Abdur Rahman",
+    price: "450.50",
+    status: "active",
+    category: "Electronics",
+    date: "2024-03-10"
+  },
+  {
+    id: 2,
+    name: "Mir Monir",
+    price: "120.00",
+    status: "pending",
+    category: "Gadgets",
+    date: "2024-03-05"
+  },
+  {
+    id: 3,
+    name: "Sabbir Ahmed",
+    price: "2500.00",
+    status: "active",
+    category: "Home Decor",
+    date: "2024-03-15"
+  },
+  {
+    id: 4,
+    name: "Zayan Malik",
+    price: "75.25",
+    status: "inactive",
+    category: "Stationary",
+    date: "2024-02-28"
+  },
+  {
+    id: 5,
+    name: "Jannatul Fardous",
+    price: "1250.00",
+    status: "active",
+    category: "Fashion",
+    date: "2024-01-20"
+  },
+  {
+    id: 6,
+    name: "Ariful Islam",
+    price: "320.00",
+    status: "pending",
+    category: "Books",
+    date: "2024-03-01"
+  }
+];
   return (
     <>
       <TableComponent  sortIcon={true} columns={tableColumns} data={tableData} />

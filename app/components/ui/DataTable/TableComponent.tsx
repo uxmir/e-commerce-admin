@@ -10,6 +10,7 @@ import {
 } from "../DataTable/Table";
 import { useState } from "react";
 import ListPopover from "../ListPopover/ListPopover";
+import { useSorting } from "@/app/CustomHooks/useSorting";
 
 interface tableColumns {
   header: string;
@@ -22,9 +23,10 @@ interface tableProps {
   sortIcon?: boolean;
 }
 const TableComponent: React.FC<tableProps> = ({ data, columns, sortIcon }) => {
+  const { sortedData, sorting, handleSort } = useSorting(data);
   const [isSorting, setIsSorting] = useState<string | null>(null);
   const [check, setCheck] = useState<string | null>(null);
-  const [catchKey,setCatchKey]=useState<string|null>(null)
+  const [catchKey, setCatchKey] = useState<string | null>(null);
   const handleSortContainer = (val: string) => {
     setIsSorting(val);
     if (isSorting?.includes(val)) {
@@ -33,10 +35,11 @@ const TableComponent: React.FC<tableProps> = ({ data, columns, sortIcon }) => {
       setIsSorting(val);
     }
   };
-  const handleSortSystem=(val:string,key:string)=>{
-   setCheck(val)
-   setCatchKey(key)
-  }
+  const handleSortSystem = (val: string, key: string) => {
+    setCheck(val);
+    setCatchKey(key);
+  };
+
   return (
     <>
       <Table>
@@ -61,14 +64,17 @@ const TableComponent: React.FC<tableProps> = ({ data, columns, sortIcon }) => {
                     )}
                   </div>
                   {isSorting === col.key && (
-                    <div className=" py-3 px-3 w-[300px] bg-white shadow-md rounded flex flex-col gap-y-2 left-5 absolute top-6 z-50">
+                    <div className=" py-3 px-3 bg-white shadow-md rounded flex flex-col gap-y-2 left-5 absolute top-6 z-50">
                       <div className="flex items-center gap-x-2">
-                     <div className="w-4">
-                     {check==="asc"&& catchKey===col.key&&( <Check size={14} className="text-blue-800" />)}
-                     </div>
+                        <div className="w-4">
+                          {check === "asc" && catchKey === col.key && (
+                            <Check size={14} className="text-blue-800" />
+                          )}
+                        </div>
                         <span
                           onClick={() => {
-                          handleSortSystem("asc",col.key)
+                            handleSortSystem("asc", col.key);
+                            handleSort(col.key, "asc");
                           }}
                           className="text-blue-800 cursor-pointer"
                         >
@@ -76,12 +82,15 @@ const TableComponent: React.FC<tableProps> = ({ data, columns, sortIcon }) => {
                         </span>
                       </div>
                       <div className="flex items-center gap-x-2">
-                           <div className="w-4">
-                         {check==="desc" && catchKey===col.key &&( <Check size={14} className="text-blue-800" />)}
-                     </div>
+                        <div className="w-4">
+                          {check === "desc" && catchKey === col.key && (
+                            <Check size={14} className="text-blue-800" />
+                          )}
+                        </div>
                         <span
                           onClick={() => {
-                          handleSortSystem("desc",col.key)
+                            handleSortSystem("desc", col.key);
+                            handleSort(col.key, "desc");
                           }}
                           className="text-blue-800 cursor-pointer"
                         >
@@ -96,8 +105,8 @@ const TableComponent: React.FC<tableProps> = ({ data, columns, sortIcon }) => {
           </TableRow>
         </TableHeader>
         <TableBody className="bg-white">
-          {data.length > 0 ? (
-            data?.map((row, index) => (
+          {sortedData?.length > 0 ? (
+            sortedData?.map((row, index) => (
               <TableRow key={index}>
                 {columns?.map((col, index) => (
                   <TableCell
