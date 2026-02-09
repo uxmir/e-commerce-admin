@@ -2,18 +2,10 @@
 import TableComponent from "@/app/components/ui/DataTable/TableComponent";
 import Heading from "@/app/components/ui/HeadingComponent/Heading";
 import Card from "@/app/components/ui/OverviewCard/Card";
-import { Edit, PiIcon, ShoppingCart } from "lucide-react";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "../../components/ui/pagination"
+import { Edit,  ShoppingCart } from "lucide-react";
 import React from "react";
 import { usePagination } from "@/app/CustomHooks/usePaginaton";
+import PaginationComponent from "@/app/components/ui/Pagination/PaginationComponent";
 const page: React.FC = () => {
   return (
     <div className="">
@@ -79,7 +71,7 @@ export default page;
 //   price: string;
 //   status: string;
 // }
-const OverviewTable = () => {
+const OverviewTable:React.FC = () => {
   const tableColumns = [
     {
       header: "Name",
@@ -155,36 +147,89 @@ const OverviewTable = () => {
     status: "pending",
     category: "Books",
     date: "2024-03-01"
+  },
+    {
+    id: 6,
+    name: "Ariful Islam",
+    price: "320.00",
+    status: "pending",
+    category: "Books",
+    date: "2024-03-01"
+  },
+    {
+    id: 7,
+    name: "Ariful Islam",
+    price: "320.00",
+    status: "pending",
+    category: "Books",
+    date: "2024-03-01"
+  },
+    {
+    id: 8,
+    name: "Ariful Islam",
+    price: "320.00",
+    status: "pending",
+    category: "Books",
+    date: "2024-03-01"
+  },
+    {
+    id: 9,
+    name: "Ariful Islam",
+    price: "320.00",
+    status: "pending",
+    category: "Books",
+    date: "2024-03-01"
+  },
+    {
+    id: 10,
+    name: "Ariful Islam",
+    price: "320.00",
+    status: "pending",
+    category: "Books",
+    date: "2024-03-01"
+  },
+    {
+    id: 11,
+    name: "Ariful Islam",
+    price: "320.00",
+    status: "pending",
+    category: "Books",
+    date: "2024-03-01"
+  },
+    {
+    id: 12,
+    name: "Ariful Islam",
+    price: "320.00",
+    status: "pending",
+    category: "Books",
+    date: "2024-03-01"
+  },
+    {
+    id: 13,
+    name: "Ariful Islam",
+    price: "320.00",
+    status: "pending",
+    category: "Books",
+    date: "2024-03-01"
+  },
+    {
+    id: 14,
+    name: "Ariful Islam",
+    price: "320.00",
+    status: "pending",
+    category: "Books",
+    date: "2024-03-01"
   }
 ];
-  const{paginatedData,totalPage,currentPage,setCurrentPage,}=usePagination(tableData)
+  const{paginatedData,totalPage,currentPage,setCurrentPage}=usePagination(tableData)
   return (
     <>
-      <TableComponent  sortIcon={true} columns={tableColumns} data={tableData} />
-      <div className="flex justify-end my-4">
-      {/* <Pagination>
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious href="#" onClick={(e:any)=>{
-            e.preventDefault()
-            if(currentPage>1) return currentPage-1
-          }}/>
-        </PaginationItem>
-     {
-      [...Array(totalPage)].map((_,index)=>(
-             <PaginationItem>
-          <PaginationLink href="#" isActive onClick={(e:any)=>{
-
-          }}>1</PaginationLink>
-        </PaginationItem>
-      ))
-     }
-        <PaginationItem>
-          <PaginationNext href="#" />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination> */}
-      </div>
+      <TableComponent  sortIcon={true} columns={tableColumns} data={paginatedData} />
+      <PaginationComponent
+      currentPage={currentPage}
+      totalPage={totalPage}
+      setCurrentPage={setCurrentPage}
+      />
     </>
   );
 };

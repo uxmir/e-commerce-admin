@@ -16,7 +16,6 @@ export const metadata: Metadata = {
   title: "E-commerce Admin",
   description: "E-commerce admin panel",
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
