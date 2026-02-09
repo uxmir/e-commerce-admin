@@ -9,6 +9,7 @@ export const useSorting = (data: any[]) => {
     return [...data].sort((a, b) => {
       let aValue = a[sorting.key];
       let bValue = b[sorting.key];
+      
       //for number value to make as a string in sorting
       const aNum = parseFloat(aValue);
       const bNum = parseFloat(bValue);

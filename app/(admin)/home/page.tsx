@@ -3,7 +3,17 @@ import TableComponent from "@/app/components/ui/DataTable/TableComponent";
 import Heading from "@/app/components/ui/HeadingComponent/Heading";
 import Card from "@/app/components/ui/OverviewCard/Card";
 import { Edit, PiIcon, ShoppingCart } from "lucide-react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "../../components/ui/pagination"
 import React from "react";
+import { usePagination } from "@/app/CustomHooks/usePaginaton";
 const page: React.FC = () => {
   return (
     <div className="">
@@ -64,11 +74,11 @@ const page: React.FC = () => {
 };
 
 export default page;
-interface dataProps {
-  name: string;
-  price: string;
-  status: string;
-}
+// interface dataProps {
+//   name: string;
+//   price: string;
+//   status: string;
+// }
 const OverviewTable = () => {
   const tableColumns = [
     {
@@ -147,9 +157,34 @@ const OverviewTable = () => {
     date: "2024-03-01"
   }
 ];
+  const{paginatedData,totalPage,currentPage,setCurrentPage,}=usePagination(tableData)
   return (
     <>
       <TableComponent  sortIcon={true} columns={tableColumns} data={tableData} />
+      <div className="flex justify-end my-4">
+      {/* <Pagination>
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious href="#" onClick={(e:any)=>{
+            e.preventDefault()
+            if(currentPage>1) return currentPage-1
+          }}/>
+        </PaginationItem>
+     {
+      [...Array(totalPage)].map((_,index)=>(
+             <PaginationItem>
+          <PaginationLink href="#" isActive onClick={(e:any)=>{
+
+          }}>1</PaginationLink>
+        </PaginationItem>
+      ))
+     }
+        <PaginationItem>
+          <PaginationNext href="#" />
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination> */}
+      </div>
     </>
   );
 };
