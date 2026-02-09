@@ -2,14 +2,12 @@ import { Check, ChevronsUpDown, SortAscIcon } from "lucide-react";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "../DataTable/Table";
 import { useState } from "react";
-import ListPopover from "../ListPopover/ListPopover";
 import { useSorting } from "@/app/CustomHooks/useSorting";
 
 interface tableColumns {
@@ -39,7 +37,6 @@ const TableComponent: React.FC<tableProps> = ({ data, columns, sortIcon }) => {
     setCheck(val);
     setCatchKey(key);
   };
-
   return (
     <>
       <Table>
@@ -128,5 +125,4 @@ const TableComponent: React.FC<tableProps> = ({ data, columns, sortIcon }) => {
     </>
   );
 };
-
 export default TableComponent;
