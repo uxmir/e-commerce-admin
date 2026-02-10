@@ -3,9 +3,12 @@ import TableComponent from "@/app/components/ui/DataTable/TableComponent";
 import Heading from "@/app/components/ui/HeadingComponent/Heading";
 import Card from "@/app/components/ui/OverviewCard/Card";
 import { Edit, ShoppingCart } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { usePagination } from "@/app/CustomHooks/usePaginaton";
 import PaginationComponent from "@/app/components/ui/Pagination/PaginationComponent";
+import Drawer from "@/app/components/ui/Drawer/Drawer";
+import { useDrawer } from "@/app/CustomHooks/useDrawer";
+import { tableData } from "../../mockapi/homeTable";
 const page: React.FC = () => {
   return (
     <div className="">
@@ -66,12 +69,11 @@ const page: React.FC = () => {
 };
 
 export default page;
-// interface dataProps {
-//   name: string;
-//   price: string;
-//   status: string;
-// }
 const OverviewTable: React.FC = () => {
+  const { paginatedData, totalPage, currentPage, setCurrentPage } =
+    usePagination(tableData);
+  const { drawerOverlay, drawerContainer, showDrawer, closeDrawer,selectedData } =
+    useDrawer(tableData);
   const tableColumns = [
     {
       header: "Name",
@@ -94,135 +96,21 @@ const OverviewTable: React.FC = () => {
       key: "action",
       render: (row: any) => (
         <div className="flex justify-end items-center gap-x-2">
-             <Edit size={16} />
+          <Edit onClick={()=>showDrawer(row.id)} size={16} />
+          <Drawer
+            overlay={drawerOverlay}
+            container={drawerContainer}
+            position="right"
+            close={closeDrawer}
+          >
+           <div className="">
+           {selectedData?.name}
+           </div>
+          </Drawer>
         </div>
       ),
     },
   ];
-  const tableData = [
-    {
-      id: 1,
-      name: "Abdur Rahman",
-      price: "450.50",
-      status: "active",
-      category: "Electronics",
-      date: "2024-03-10",
-    },
-    {
-      id: 2,
-      name: "Mir Monir",
-      price: "120.00",
-      status: "pending",
-      category: "Gadgets",
-      date: "2024-03-05",
-    },
-    {
-      id: 3,
-      name: "Sabbir Ahmed",
-      price: "2500.00",
-      status: "active",
-      category: "Home Decor",
-      date: "2024-03-15",
-    },
-    {
-      id: 4,
-      name: "Zayan Malik",
-      price: "75.25",
-      status: "inactive",
-      category: "Stationary",
-      date: "2024-02-28",
-    },
-    {
-      id: 5,
-      name: "Jannatul Fardous",
-      price: "1250.00",
-      status: "active",
-      category: "Fashion",
-      date: "2024-01-20",
-    },
-    {
-      id: 6,
-      name: "Ariful Islam",
-      price: "320.00",
-      status: "pending",
-      category: "Books",
-      date: "2024-03-01",
-    },
-    {
-      id: 6,
-      name: "Ariful Islam",
-      price: "320.00",
-      status: "pending",
-      category: "Books",
-      date: "2024-03-01",
-    },
-    {
-      id: 7,
-      name: "Ariful Islam",
-      price: "320.00",
-      status: "pending",
-      category: "Books",
-      date: "2024-03-01",
-    },
-    {
-      id: 8,
-      name: "Ariful Islam",
-      price: "320.00",
-      status: "pending",
-      category: "Books",
-      date: "2024-03-01",
-    },
-    {
-      id: 9,
-      name: "Ariful Islam",
-      price: "320.00",
-      status: "pending",
-      category: "Books",
-      date: "2024-03-01",
-    },
-    {
-      id: 10,
-      name: "Ariful Islam",
-      price: "320.00",
-      status: "pending",
-      category: "Books",
-      date: "2024-03-01",
-    },
-    {
-      id: 11,
-      name: "Ariful Islam",
-      price: "320.00",
-      status: "pending",
-      category: "Books",
-      date: "2024-03-01",
-    },
-    {
-      id: 12,
-      name: "Ariful Islam",
-      price: "320.00",
-      status: "pending",
-      category: "Books",
-      date: "2024-03-01",
-    },
-    {
-      id: 13,
-      name: "Ariful Islam",
-      price: "320.00",
-      status: "pending",
-      category: "Books",
-      date: "2024-03-01",
-    },
-    {
-      id: 14,
-      name: "Ariful Islam",
-      price: "320.00",
-      status: "pending",
-      category: "Books",
-      date: "2024-03-01",
-    },
-  ];
-  const { paginatedData, totalPage, currentPage, setCurrentPage } =
-    usePagination(tableData);
   return (
     <>
       <TableComponent

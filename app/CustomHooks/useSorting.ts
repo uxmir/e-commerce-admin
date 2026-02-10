@@ -9,16 +9,26 @@ export const useSorting = (data: any[]) => {
     return [...data].sort((a, b) => {
       let aValue = a[sorting.key];
       let bValue = b[sorting.key];
-      
+
+      // sorting for date value
+      const isDate = (val: string) =>
+        typeof val === "string" && !isNaN(Date.parse(val)) && val.includes("-");
+      if (isDate(aValue) && isDate(bValue)) {
+        const aDate = new Date(aValue).getTime();
+        const bDate = new Date(bValue).getTime();
+        return sorting.direction === "asc" ? aDate - bDate : bDate - aDate;
+      }
       //for number value to make as a string in sorting
       const aNum = parseFloat(aValue);
       const bNum = parseFloat(bValue);
       if (!isNaN(aNum) && !isNaN(bNum)) {
-        aValue = aNum;
-        bValue = bNum;
+        return sorting.direction === "asc" ? aNum - bNum : bNum - aNum;
       }
-      if (aValue < bValue) return sorting.direction === "asc" ? -1 : 1;
-      if (aValue > bValue) return sorting.direction === "asc" ? 1 : -1;
+      //string sorting
+      const aStr = String(aValue).toLowerCase().trim();
+      const bStr = String(bValue).toLowerCase().trim();
+      if (aStr < bStr) return sorting.direction === "asc" ? -1 : 1;
+      if (aStr > bStr) return sorting.direction === "asc" ? 1 : -1;
       return 0;
     });
   }, [data, sorting]);
