@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export const usePrint=(data:any[])=>{
+export const usePrint=()=>{
 const [selectedId,setSelectedId]=useState<number| null>(null)
 const handlePrint=(id:number)=>{
 setSelectedId(id)

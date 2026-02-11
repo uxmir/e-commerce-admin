@@ -39,12 +39,12 @@ const TableComponent: React.FC<tableProps> = ({ data, columns, sortIcon }) => {
   };
   return (
     <>
-      <Table>
-        <TableHeader className="bg-gray-300">
-          <TableRow className="">
+      <Table className="">
+        <TableHeader className="bg-blue-100 dark:bg-[#33304E] [&_tr]:border-b-0">
+          <TableRow className="border-0 text-gray-600 dark:text-white capitalize">
             {columns?.map((col, index) => (
               <TableHead
-                className={` px-5 py-2 text-sm sm:text-base capitalize font-medium `}
+                className={` px-5 py-3 text-sm sm:text-base capitalize font-medium `}
                 key={index}
               >
                 <div className="relative">
@@ -101,13 +101,16 @@ const TableComponent: React.FC<tableProps> = ({ data, columns, sortIcon }) => {
             ))}
           </TableRow>
         </TableHeader>
-        <TableBody className="bg-white">
+        <TableBody className="">
           {sortedData?.length > 0 ? (
             sortedData?.map((row, index) => (
-              <TableRow key={index}>
+              <TableRow
+                key={index}
+                className={`bg-white dark:bg-[#1a163d] text-gray-600 dark:text-white capitalize hover:bg-gray-50   dark:hover:bg-transparent border-gray-200 dark:border-gray-400 ${index === sortedData.length - 1 ? "border-0" : "border-b"}`}
+              >
                 {columns?.map((col, index) => (
                   <TableCell
-                    className={` px-5 py-2 text-sm sm:text-base capitalize  ${index === columns.length - 1 ? "text-end" : ""}`}
+                    className={` px-5 py-3  text-sm sm:text-base capitalize  ${index === columns.length - 1 ? "text-end" : ""}`}
                     key={index}
                   >
                     {col.render ? col.render(row) : row[col.key]}

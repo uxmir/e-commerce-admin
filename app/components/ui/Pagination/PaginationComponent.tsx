@@ -15,7 +15,7 @@ interface paginationProps {
 }
 const PaginationComponent: React.FC<paginationProps> = ({ totalPage,currentPage,setCurrentPage }) => {
   return (
-    <div className="flex justify-end my-4">
+    <div className="flex justify-end my-4 text-gray-600 dark:text-white">
       <Pagination className="cursor-pointer">
         <PaginationContent>
           <PaginationItem>

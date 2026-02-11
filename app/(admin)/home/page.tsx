@@ -2,7 +2,7 @@
 import TableComponent from "@/app/components/ui/DataTable/TableComponent";
 import Heading from "@/app/components/ui/HeadingComponent/Heading";
 import Card from "@/app/components/ui/OverviewCard/Card";
-import { Printer, ShoppingCart } from "lucide-react";
+import { Eye, Printer, ShoppingCart } from "lucide-react";
 import React, { useState } from "react";
 import { usePagination } from "@/app/CustomHooks/usePaginaton";
 import PaginationComponent from "@/app/components/ui/Pagination/PaginationComponent";
@@ -57,13 +57,13 @@ const page: React.FC = () => {
       datatable and overview by chart's
       ============= */}
       <div className="grid grid-cols-12 mt-6   gap-6">
-        <div className="col-span-12 lg:col-span-8">
-          <Heading headingValue="Today's Order" />
-          <div className="mt-4">
-            <OverviewTable />
-          </div>
-        </div>
+        <div className="col-span-12 lg:col-span-8"></div>
         <div className="col-span-12 lg:col-span-4"></div>
+      </div>
+      {/*======today's order====== */}
+      <Heading headingValue="Today's Order" />
+      <div className="mt-4 w-full">
+        <OverviewTable />
       </div>
     </div>
   );
@@ -74,7 +74,7 @@ const OverviewTable: React.FC = () => {
   const { paginatedData, totalPage, currentPage, setCurrentPage } =
     usePagination(tableData);
   const { getStyle } = useColorStatus();
-  const { selectedId, handlePrint } = usePrint(tableData);
+  const { selectedId, handlePrint } = usePrint();
   const printedData = tableData.find((d) => d.id === selectedId);
   const tableColumns = [
     {
@@ -109,11 +109,15 @@ const OverviewTable: React.FC = () => {
       key: "action",
       render: (row: any) => (
         <>
-          <div className="flex justify-end items-center gap-x-2">
+          <div className="flex justify-end items-center gap-x-3">
+            <Eye
+            size={18}
+            className="cursor-pointer text-blue-600"
+            />
             <Printer
               size={18}
               onClick={() => handlePrint(row.id)}
-              className="cursor-pointer"
+              className="cursor-pointer text-green-600"
             />
           </div>
         </>
@@ -168,6 +172,7 @@ interface invoiceProps {
   printedData: tableProps;
 }
 const InvoicePdf: React.FC<invoiceProps> = ({ printedData }) => {
+  const { getStyle } = useColorStatus();
   return (
     <>
       <div className="w-[800px]  bg-white  ">
@@ -178,13 +183,13 @@ const InvoicePdf: React.FC<invoiceProps> = ({ printedData }) => {
               Invoice
             </h1>
             <p className="text-sm text-gray-500 mt-1">
-              Invoice ID: #{printedData.invoice_id}
+              Invoice ID: #{printedData?.invoice_id}
             </p>
           </div>
           <div className="text-right">
             <h2 className="font-bold text-lg">Your Shop Name</h2>
             <p className="text-xs text-gray-500">Dhaka, Bangladesh</p>
-            <p className="text-xs text-gray-500">support@yourshop.com</p>
+            <p className="text-xs text-gray-500">support@mirshop.com</p>
           </div>
         </div>
 
@@ -195,25 +200,27 @@ const InvoicePdf: React.FC<invoiceProps> = ({ printedData }) => {
               Bill To:
             </p>
             <h3 className="font-bold text-lg capitalize">
-              {printedData.customer_name}
+              {printedData?.customer_name}
             </h3>
             <p className="text-sm text-gray-600">
-              Customer ID: {printedData.id}
+              Customer ID: {printedData?.id}
             </p>
-            <p className="text-sm text-gray-600">Date: {printedData.date}</p>
+            <p className="text-sm text-gray-600">Date: {printedData?.date}</p>
           </div>
           <div className="text-right">
-            <p className="text-xs uppercase text-gray-400 font-bold mb-1">
+            <p className={`text-xs uppercase  font-bold mb-1`}>
               Payment Status:
             </p>
-            <span className="text-sm font-bold px-2 py-1 bg-gray-100 rounded uppercase">
-              {printedData.status}
+            <span
+              className={`text-sm font-bold px-2 py-1 bg-gray-100 rounded uppercase ${getStyle(printedData?.status)}`}
+            >
+              {printedData?.status}
             </span>
             <p className="text-xs mt-3 uppercase text-gray-400 font-bold mb-1">
               Method:
             </p>
             <p className="text-sm font-semibold capitalize">
-              {printedData.method}
+              {printedData?.method}
             </p>
           </div>
         </div>
@@ -237,12 +244,14 @@ const InvoicePdf: React.FC<invoiceProps> = ({ printedData }) => {
           <tbody>
             <tr className="border-b">
               <td className="py-4 text-sm">
-                Product Order - {printedData.invoice_id}
+                Product Order - {printedData?.invoice_id}
               </td>
               <td className="py-4 text-right text-sm">1</td>
-              <td className="py-4 text-right text-sm">${printedData.amount}</td>
+              <td className="py-4 text-right text-sm">
+                ${printedData?.amount}
+              </td>
               <td className="py-4 text-right text-sm font-semibold">
-                ${printedData.amount}
+                ${printedData?.amount}
               </td>
             </tr>
           </tbody>
@@ -254,7 +263,7 @@ const InvoicePdf: React.FC<invoiceProps> = ({ printedData }) => {
             <div className="flex justify-between py-2 border-b">
               <span className="text-sm text-gray-600">Subtotal:</span>
               <span className="text-sm font-semibold">
-                ${printedData.amount}
+                ${printedData?.amount}
               </span>
             </div>
             <div className="flex justify-between py-2 border-b">
@@ -264,7 +273,7 @@ const InvoicePdf: React.FC<invoiceProps> = ({ printedData }) => {
             <div className="flex justify-between py-3 mt-1 bg-gray-50 px-2">
               <span className="font-bold">Total Amount:</span>
               <span className="font-bold text-lg text-blue-700">
-                ${printedData.amount}
+                ${printedData?.amount}
               </span>
             </div>
           </div>
