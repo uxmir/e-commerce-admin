@@ -32,7 +32,7 @@ export const useSorting = (data: any[]) => {
       return 0;
     });
   }, [data, sorting]);
-  //for sorting data table
+  //for sorting data table reusable fuction
   const handleSort = (key: string, direction: "asc" | "desc") => {
     setSorting({ key, direction });
   };

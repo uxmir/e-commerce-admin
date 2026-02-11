@@ -2,13 +2,15 @@
 import TableComponent from "@/app/components/ui/DataTable/TableComponent";
 import Heading from "@/app/components/ui/HeadingComponent/Heading";
 import Card from "@/app/components/ui/OverviewCard/Card";
-import { Edit, ShoppingCart } from "lucide-react";
+import { Edit, Printer, ShoppingCart } from "lucide-react";
 import React, { useState } from "react";
 import { usePagination } from "@/app/CustomHooks/usePaginaton";
 import PaginationComponent from "@/app/components/ui/Pagination/PaginationComponent";
 import Drawer from "@/app/components/ui/Drawer/Drawer";
 import { useDrawer } from "@/app/CustomHooks/useDrawer";
 import { tableData } from "../../mockapi/homeTable";
+import { useColorStatus } from "@/app/CustomHooks/useColorStatus";
+import Badge from "@/app/components/ui/Badge/Badge";
 const page: React.FC = () => {
   return (
     <div className="">
@@ -71,17 +73,24 @@ const page: React.FC = () => {
 export default page;
 const OverviewTable: React.FC = () => {
   const { paginatedData, totalPage, currentPage, setCurrentPage } =
-    usePagination(tableData);
-  const { drawerOverlay, drawerContainer, showDrawer, closeDrawer,selectedData } =
-    useDrawer(tableData);
+  usePagination(tableData);
+  const {getStyle}=useColorStatus()
   const tableColumns = [
     {
-      header: "Name",
-      key: "name",
+      header: "Invoice No",
+      key: "invoice_id",
+    },
+    {
+      header: "Customer Name",
+      key: "customer_name",
+    },
+    {
+      header: "method",
+      key: "method",
     },
     {
       header: "Price",
-      key: "price",
+      key: "amount",
     },
     {
       header: "Date",
@@ -90,23 +99,20 @@ const OverviewTable: React.FC = () => {
     {
       header: "Status",
       key: "status",
+      render:(row:any)=>(
+        <Badge
+        color={`${getStyle(row.status)}`}
+        >
+          {row.status}
+        </Badge>
+      )
     },
     {
       header: "Actions",
       key: "action",
       render: (row: any) => (
         <div className="flex justify-end items-center gap-x-2">
-          <Edit onClick={()=>showDrawer(row.id)} size={16} />
-          <Drawer
-            overlay={drawerOverlay}
-            container={drawerContainer}
-            position="right"
-            close={closeDrawer}
-          >
-           <div className="">
-           {selectedData?.name}
-           </div>
-          </Drawer>
+          <Printer size={18} className="cursor-pointer"/>
         </div>
       ),
     },
@@ -123,7 +129,6 @@ const OverviewTable: React.FC = () => {
         totalPage={totalPage}
         setCurrentPage={setCurrentPage}
       />
-      {/* details drawer*/}
     </>
   );
 };

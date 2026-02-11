@@ -1,13 +1,13 @@
 export type ColorStatus =
   | "completed"
-  | "delivered"
+  | "deliveried"
   | "cancelled"
   | "pending"
   | "processing"
   | "new";
 
 const appliedColor: Record<ColorStatus, string> = {
-  delivered: "bg-green-200 text-green-600",
+  deliveried: "bg-green-200 text-green-600",
   completed: "bg-green-200 text-green-600",
   pending: "bg-blue-200 text-blue-600",
   processing: "bg-purple-200 text-purple-600",

@@ -1,8 +1,9 @@
 export interface tableProps{
- id:number,
- name:string;
- price:number;
- status:string;
- category:string;
- date:string   
+id:number;
+invoice_id:number;
+customer_name:string;
+method:string;
+amount:number;
+date:string;
+status:string  
 }
