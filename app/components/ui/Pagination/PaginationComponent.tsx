@@ -16,22 +16,20 @@ interface paginationProps {
 const PaginationComponent: React.FC<paginationProps> = ({ totalPage,currentPage,setCurrentPage }) => {
   return (
     <div className="flex justify-end my-4">
-      <Pagination>
+      <Pagination className="cursor-pointer">
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
-              href="#"
               onClick={(e: any) => {
                 e.preventDefault();
-                if (currentPage > 1) return setCurrentPage(currentPage - 1);
+                if (currentPage > 1)  setCurrentPage(currentPage - 1);
               }}
             />
           </PaginationItem>
           {[...Array(totalPage)].map((_, index) => (
             <PaginationItem key={index}>
               <PaginationLink
-                href="#"
-                isActive={index === currentPage + 1}
+                isActive={index===currentPage-1}
                 onClick={(e: any) => {
                   e.preventDefault();
                   setCurrentPage(index + 1);
@@ -42,11 +40,10 @@ const PaginationComponent: React.FC<paginationProps> = ({ totalPage,currentPage,
             </PaginationItem>
           ))}
           <PaginationNext
-            href="#"
             onClick={(e: any) => {
               e.preventDefault();
               if (currentPage < totalPage)
-                return setCurrentPage(currentPage + 1);
+               setCurrentPage(currentPage + 1);
             }}
           />
         </PaginationContent>
