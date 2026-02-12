@@ -14,10 +14,11 @@ import  Link   from "next/link";
 import { usePrint } from "@/app/CustomHooks/usePrint";
 const page: React.FC = () => {
   return (
-    <div className="">
+  <>
+      <div className="">
       <Heading headingValue="dashboard overview" />
       {/*========dashboardoverview========*/}
-      <div className="grid grid-cols-1 mt-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 mt-6 sm:grid-cols-2  xl:grid-cols-4 gap-6">
         <Card
           title="Total Order"
           total_amount={120.0}
@@ -68,6 +69,7 @@ const page: React.FC = () => {
         <OverviewTable />
       </div>
     </div>
+  </>
   );
 };
 
