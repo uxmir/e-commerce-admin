@@ -19,7 +19,7 @@ const TopBar: React.FC = () => {
   if (!mounted) {
     return (
       <div
-        className={`py-3 w-full flex justify-between items-center fixed z-50 top-0 pr-5 transition-all duration-500 bg-white border-b border-gray-200 ${sidebar ? "pl-10 lg:pl-74" : "pl-10"}`}
+        className={`py-3 w-full flex justify-between items-center fixed z-50 top-0 pr-5 transition-all duration-500 bg-white border-b border-gray-200 ${sidebar ? "pl-10 lg:pl-74" : "pl-14"}`}
       >
         <div className="animate-pulse bg-gray-200 h-6 w-6 rounded" />
       </div>
@@ -27,7 +27,7 @@ const TopBar: React.FC = () => {
   }
   return (
     <div
-      className={`py-4 w-full flex justify-between items-center fixed top-0 z-50 pr-5 cursor-pointer  transition-all duration-500 bg-white dark:bg-[#33304E] border-b border-gray-200 ${sidebar === true ? " pl-10 lg:pl-74" : "pl-10"}`}
+      className={`py-4 w-full flex justify-between items-center fixed top-0 z-50 pr-10 cursor-pointer  transition-all duration-500 bg-white dark:bg-[#33304E] border-b border-gray-200 ${sidebar === true ? " pl-10 lg:pl-74" : " pl-10 lg:pl-14"}`}
     >
       <div>
         <PanelRight onClick={handleSidebar} className="hidden lg:block" />
