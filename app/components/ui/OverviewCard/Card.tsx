@@ -46,7 +46,7 @@ const Card: React.FC<cardProps> = ({
           {total_amount}
         </span>
         <div
-          className={`flex max-[368px]:flex-col  gap-3 ${body_text_color} text-xs mt-1 font-medium`}
+          className={`flex max-[368px]:flex-col flex-wrap  gap-3 ${body_text_color} text-xs mt-1 font-medium`}
         >
           <span>Cash:${cash || "10.000"}</span>{" "}
           <span>Card:${card || "20.000"}</span>{" "}
