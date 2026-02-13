@@ -12,7 +12,7 @@ import Badge from "@/app/components/ui/Badge/Badge";
 import InvoicePdf from "./InvoicePdf";
 import  Link   from "next/link";
 import { usePrint } from "@/app/CustomHooks/usePrint";
-import { OrderBarChart } from "./OrderBarChart";
+import { OrderAreaChart } from "./OrderAreaChart";
 import { OrderPieChart } from "./OrderPieChart";
 const page: React.FC = () => {
   return (
@@ -61,9 +61,9 @@ const page: React.FC = () => {
       {/*=============
       datatable and overview by chart's
       ============= */}
-      <div className="grid grid-cols-12 my-16 gap-y-12 gap-x-4 xl:gap-x-6">
+      <div className="grid grid-cols-12 my-16 gap-y-12 gap-x-4 xl:gap-x-6  lg:h-[550px] xl:h-[600px]">
         <div className="col-span-12 lg:col-span-7 xl:col-span-8">
-          <OrderBarChart/>
+          <OrderAreaChart/>
         </div>
         <div className="col-span-12 lg:col-span-5 xl:col-span-4">
           <OrderPieChart/>

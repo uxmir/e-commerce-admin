@@ -59,7 +59,7 @@ export function OrderPieChart() {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0 px-0">
-        <ChartContainer config={chartConfig} className="mx-auto aspect-square ">
+        <ChartContainer config={chartConfig} className="mx-auto aspect-square   w-50 sm:w-70 lg:w-60 xl:w-80">
           <PieChart>
             <ChartTooltip
               cursor={false}
