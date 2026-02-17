@@ -47,7 +47,7 @@ export function OrderPieChart() {
   return (
     <Card className="flex flex-col border-none  bg-white dark:bg-[#2d275f]  px-5 py-5">
       <CardHeader className="items-center pb-0 px-0">
-        <CardTitle className="text-lg font-bold">
+        <CardTitle className="">
           Category Distribution
         </CardTitle>
         <CardDescription>

@@ -1,8 +1,6 @@
 "use client"
-
 import { TrendingUp } from "lucide-react"
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
-
 import {
   Card,
   CardContent,
@@ -50,7 +48,6 @@ export function OrderAreaChart() {
           config={chartConfig}
           className="w-full lg:h-[380px] xl:h-[425px]"
         >
-          {/* AreaChart-এ মার্জিন একটু এডজাস্ট করা হয়েছে যাতে লাইনগুলো কার্ডের বাইরে না যায় */}
           <AreaChart
             accessibilityLayer
             data={chartData}
@@ -67,7 +64,6 @@ export function OrderAreaChart() {
               tickMargin={10}
               tickFormatter={(value) => value.slice(0, 3)}
             />
-            {/* YAxis যোগ করলে চার্টের উচ্চতা বুঝতে সুবিধা হয়, তবে আপনি চাইলে বাদ দিতে পারেন */}
             <YAxis hide /> 
             
             <ChartTooltip
@@ -78,11 +74,11 @@ export function OrderAreaChart() {
             {/* Delivered Area (Greenish) */}
             <Area
               dataKey="delivered"
-              type="monotone" // লাইনটি স্মুথ হবে
+              type="monotone" 
               fill="var(--color-delivered)"
               fillOpacity={0.4}
               stroke="var(--color-delivered)"
-              stackId="a" // এটি দিলে ডাটা একটার ওপর একটা স্ট্যাক হবে না, আলাদা দেখাবে
+              stackId="a" 
             />
 
             {/* Pending Area (Sky Blue) */}

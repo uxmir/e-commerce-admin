@@ -1,4 +1,5 @@
 import { tableProps } from "../types/homeTable";
+
 export const tableData: tableProps[] = [
   {
     id: 1,

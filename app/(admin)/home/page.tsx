@@ -3,89 +3,99 @@ import TableComponent from "@/app/components/ui/DataTable/TableComponent";
 import Heading from "@/app/components/ui/HeadingComponent/Heading";
 import Card from "@/app/components/ui/OverviewCard/Card";
 import { Eye, Printer, ShoppingCart } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { usePagination } from "@/app/CustomHooks/usePaginaton";
 import PaginationComponent from "@/app/components/ui/Pagination/PaginationComponent";
 import { tableData } from "../../mockapi/homeTable";
 import { useColorStatus } from "@/app/CustomHooks/useColorStatus";
 import Badge from "@/app/components/ui/Badge/Badge";
 import InvoicePdf from "./InvoicePdf";
-import  Link   from "next/link";
+import Link from "next/link";
 import { usePrint } from "@/app/CustomHooks/usePrint";
 import { OrderAreaChart } from "./OrderAreaChart";
 import { OrderPieChart } from "./OrderPieChart";
+import { useAppDispatch, useAppSelector } from "@/app/CustomHooks/api";
+import { todayOrderData } from "@/app/store/HomeDataSlice";
+import Loader from "@/app/components/ui/Loader/Loader";
 const page: React.FC = () => {
   return (
-  <>
+    <>
       <div className="">
-      <Heading headingValue="dashboard overview" />
-      {/*========dashboardoverview========*/}
-      <div className="grid grid-cols-1 mt-6 sm:grid-cols-2  xl:grid-cols-4 gap-6">
-        <Card
-          title="Total Order"
-          total_amount={120.0}
-          Icon={ShoppingCart}
-          container_color="bg-[#DDEDFF]"
-          body_text_color="text-gray-700"
-          icon_color="text-white bg-[#28629C]"
-          border_color="border-[#28629C]"
-        />
-        <Card
-          title="Completed Order"
-          total_amount={120.0}
-          Icon={ShoppingCart}
-          container_color="bg-[#D2F6D6]"
-          body_text_color="text-gray-700"
-          icon_color="text-white bg-[#289C36]"
-          border_color="border-[#289C36]"
-        />
-        <Card
-          title="Pending Order"
-          total_amount={120.0}
-          Icon={ShoppingCart}
-          container_color="bg-[#F8E8BD]"
-          body_text_color="text-gray-700"
-          icon_color="text-white bg-[#9C7D28]"
-          border_color="border-[#9C7D28]"
-        />
-        <Card
-          title="Cancelled Order"
-          total_amount={120.0}
-          Icon={ShoppingCart}
-          container_color="bg-[#FEC7C7]"
-          body_text_color="text-gray-700"
-          icon_color="text-white bg-[#9C2828]"
-          border_color="border-[#9C2828]"
-        />
-      </div>
-      {/*=============
+        <Heading headingValue="dashboard overview" />
+        {/*========dashboardoverview========*/}
+        <div className="grid grid-cols-1 mt-6 sm:grid-cols-2  xl:grid-cols-4 gap-6">
+          <Card
+            title="Total Order"
+            total_amount={120.0}
+            Icon={ShoppingCart}
+            container_color="bg-[#DDEDFF]"
+            body_text_color="text-gray-700"
+            icon_color="text-white bg-[#28629C]"
+            border_color="border-[#28629C]"
+          />
+          <Card
+            title="Completed Order"
+            total_amount={120.0}
+            Icon={ShoppingCart}
+            container_color="bg-[#D2F6D6]"
+            body_text_color="text-gray-700"
+            icon_color="text-white bg-[#289C36]"
+            border_color="border-[#289C36]"
+          />
+          <Card
+            title="Pending Order"
+            total_amount={120.0}
+            Icon={ShoppingCart}
+            container_color="bg-[#F8E8BD]"
+            body_text_color="text-gray-700"
+            icon_color="text-white bg-[#9C7D28]"
+            border_color="border-[#9C7D28]"
+          />
+          <Card
+            title="Cancelled Order"
+            total_amount={120.0}
+            Icon={ShoppingCart}
+            container_color="bg-[#FEC7C7]"
+            body_text_color="text-gray-700"
+            icon_color="text-white bg-[#9C2828]"
+            border_color="border-[#9C2828]"
+          />
+        </div>
+        {/*=============
       datatable and overview by chart's
       ============= */}
-      <div className="grid grid-cols-12 my-16 gap-y-12 gap-x-4 xl:gap-x-6  lg:h-[550px] xl:h-[600px]">
-        <div className="col-span-12 lg:col-span-7 xl:col-span-8">
-          <OrderAreaChart/>
+        <div className="grid grid-cols-12 my-16 gap-y-12 gap-x-4 xl:gap-x-6  lg:h-[550px] xl:h-[600px]">
+          <div className="col-span-12 lg:col-span-7 xl:col-span-8">
+            <OrderAreaChart />
+          </div>
+          <div className="col-span-12 lg:col-span-5 xl:col-span-4">
+            <OrderPieChart />
+          </div>
         </div>
-        <div className="col-span-12 lg:col-span-5 xl:col-span-4">
-          <OrderPieChart/>
+        {/*======today's order====== */}
+        <Heading headingValue="Recent Order" />
+        <div className="mt-4 w-full">
+          <OverviewTable />
         </div>
       </div>
-      {/*======today's order====== */}
-      <Heading headingValue="Recent Order" />
-      <div className="mt-4 w-full">
-        <OverviewTable />
-      </div>
-    </div>
-  </>
+    </>
   );
 };
-
 export default page;
 const OverviewTable: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { data, loading } = useAppSelector((state) => state.homeData);
   const { paginatedData, totalPage, currentPage, setCurrentPage } =
-    usePagination(tableData);
+    usePagination(data);
   const { getStyle } = useColorStatus();
   const { selectedId, handlePrint } = usePrint();
-  const printedData = tableData.find((d) => d.id === selectedId);
+  const printedData = data?.find((d) => d.id === selectedId);
+
+  //mock api is calling
+  useEffect(() => {
+    dispatch(todayOrderData());
+  }, [dispatch]);
+
   const tableColumns = [
     {
       header: "Invoice No",
@@ -120,12 +130,9 @@ const OverviewTable: React.FC = () => {
       render: (row: any) => (
         <>
           <div className="flex justify-end items-center gap-x-3">
-         <Link href={`/home/${row.id}`}>
-             <Eye
-            size={18}
-            className="cursor-pointer text-blue-600"
-            />
-         </Link>
+            <Link href={`/home/${row.id}`}>
+              <Eye size={18} className="cursor-pointer text-blue-600" />
+            </Link>
             <Printer
               size={18}
               onClick={() => handlePrint(row.id)}
@@ -133,9 +140,17 @@ const OverviewTable: React.FC = () => {
             />
           </div>
         </>
-      ), 
+      ),
     },
   ];
+//loading state
+if(loading){
+  return(
+    <>
+    <Loader/>
+    </>
+  )
+}
   return (
     <>
       <style

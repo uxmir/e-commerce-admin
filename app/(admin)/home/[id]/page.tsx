@@ -1,5 +1,5 @@
 "use client";
-import React, { use } from "react";
+import React, { use, useEffect } from "react";
 import { tableData } from "@/app/mockapi/homeTable";
 import InvoicePdf from "../InvoicePdf";
 interface pageProps {
@@ -11,11 +11,24 @@ const page: React.FC<pageProps> = ({ params }) => {
   const { handlePrint } = usePrint();
   const resolvedParams = use(params);
   const id = Number(resolvedParams.id);
-  const detailsData = tableData?.find((d) => d.id === id);
+  const dispatch=useAppDispatch();
+  const {data,loading}=useAppSelector((state)=>state.homeData)
+  const detailsData = data?.find((d) => d.id === id);
+  useEffect(()=>{
+    dispatch(todayOrderData())
+  },[dispatch])
+  //loading state
+  if(loading){
+    return(
+      <>
+      <Loader loaderSize={32}/>
+      </>
+    )
+  }
   if (!detailsData) {
     return (
       <>
-        <div>Data is not found</div>
+        <Loader loaderSize={32}/>
       </>
     );
   }
@@ -70,6 +83,9 @@ import { useColorStatus } from "@/app/CustomHooks/useColorStatus";
 import { tableProps } from "@/app/types/homeTable";
 import Button from "@/app/components/ui/Button/Button";
 import { usePrint } from "@/app/CustomHooks/usePrint";
+import { useAppDispatch, useAppSelector } from "@/app/CustomHooks/api";
+import { todayOrderData } from "@/app/store/HomeDataSlice";
+import Loader from "@/app/components/ui/Loader/Loader";
 interface invoiceProps {
   printedData: tableProps;
   container_class?: string;
