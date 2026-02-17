@@ -8,7 +8,6 @@ export const usePagination = (allData: any[]) => {
     const endIndex = startIndex + rowPerPage;
    return allData?.slice(startIndex, endIndex);
   }, [allData, currentPage, rowPerPage]);
-
   return {
     allData,
     currentPage,

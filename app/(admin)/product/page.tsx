@@ -1,11 +1,128 @@
-import React from 'react'
+"use client";
+import Badge from "@/app/components/ui/Badge/Badge";
+import TableComponent from "@/app/components/ui/DataTable/TableComponent";
+import Input from "@/app/components/ui/Input/Input";
+import PaginationComponent from "@/app/components/ui/Pagination/PaginationComponent";
+import { useAppDispatch, useAppSelector } from "@/app/CustomHooks/api";
+import { useColorStatus } from "@/app/CustomHooks/useColorStatus";
+import { usePagination } from "@/app/CustomHooks/usePaginaton";
+import { fetchAllData } from "@/app/store/ProductSlice";
+import { Products } from "@/app/types/product";
+import { SquarePen, Trash } from "lucide-react";
+import Image from "next/image";
+import React, { useState, useEffect, useMemo } from "react";
+const page: React.FC = () => {
 
-const page:React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { data, loading } = useAppSelector((state) => state.product);
+  const { getStyle } = useColorStatus();
+  const [search, setSearch] = useState<string>("");
+
+  useEffect(() => {
+    dispatch(fetchAllData());
+  }, [dispatch]);
+
+  //filter logic
+  const filteredData = useMemo(() => {
+    if (!data) return [];
+    return data?.filter(
+      (d:Products) =>
+        d.name.toLowerCase().includes(search.toLowerCase()) ||
+        d.category.toLowerCase().includes(search.toLowerCase()) ||
+        d.status.toLowerCase().includes(search.toLowerCase()),
+    );
+  }, [data, search]);
+
+  const { currentPage, setCurrentPage, totalPage, paginatedData } =
+    usePagination(filteredData);
+
+  //table columns
+  const tableColumns = [
+    {
+      header: "Name",
+      key: "name",
+      render:(row:any)=>(
+        <>
+        <div className="flex gap-x-3 items-center">
+         <div className="w-8 h-5 ">
+          <Image
+          src={row?.img}
+          alt={`${row?.name}`}
+          width={0}
+          height={0}
+          className="w-full h-full object-cover"
+          />
+        </div>  
+        <span>{row?.name}</span>
+        </div>
+        </>
+      )
+    },
+    {
+      header: "Category",
+      key: "category",
+    },
+    {
+      header: "price",
+      key: "price",
+    },
+    {
+      header: "Sale price",
+      key: "sales_price",
+    },
+    {
+      header: "Stock",
+      key: "stock",
+    },
+    {
+      header: "Status",
+      key: "status",
+      render: (row: any) => (
+        <>
+          <Badge color={`${getStyle(row.status)}`}>{row?.status}</Badge>
+        </>
+      ),
+    },
+    {
+      header: "Actions",
+      key: "action",
+      render: (row: any) => (
+        <>
+          <div className="flex justify-end items-center gap-x-3">
+            <SquarePen size={18} className="cursor-pointer text-blue-600" />
+            <Trash size={18} className="cursor-pointer text-red-600" />
+          </div>
+        </>
+      ),
+    },
+  ];
   return (
     <div>
-      product is done okay
+      <div className="flex flex-col sm:flex-row justify-between items-center w-full mt-10 mb-6">
+        <div className=" w-full sm:w-[300px]">
+          <Input
+            inputType="text"
+            inputName="search"
+            placeholder="Filter By Name or Category or Status"
+            value={search}
+            onChange={(e: any) => setSearch(e.target.value)}
+          />
+        </div>
+      </div>
+      <div>
+        <TableComponent
+          sortIcon={true}
+          columns={tableColumns}
+          data={paginatedData}
+        />
+        <PaginationComponent
+          currentPage={currentPage}
+          totalPage={totalPage}
+          setCurrentPage={setCurrentPage}
+        />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

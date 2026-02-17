@@ -4,6 +4,8 @@ export type ColorStatus =
   | "cancelled"
   | "pending"
   | "processing"
+  | "selling"
+  |"soldout"
   | "new";
 
 const appliedColor: Record<ColorStatus, string> = {
@@ -13,6 +15,8 @@ const appliedColor: Record<ColorStatus, string> = {
   processing: "bg-purple-200 text-purple-600",
   new: "bg-orange-200 text-orange-600",
   cancelled: "bg-red-200 text-red-600",
+  selling:"bg-blue-200 text-blue-600",
+  soldout:"bg-green-200 text-green-600"
 };
 
 export const useColorStatus = () => {

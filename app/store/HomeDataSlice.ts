@@ -12,7 +12,7 @@ data:[],
 error:null,
 loading:false
 }
-export const todayOrderData=createAsyncThunk(
+export const todayOrderData=createAsyncThunk<tableProps[]>(
  'order/todayOrder',
  async(_,{rejectWithValue})=>{
    try {
@@ -44,5 +44,4 @@ addCase(todayOrderData.rejected,(state:any)=>{
 })
 }
 })
-
 export default homeDataSlice.reducer

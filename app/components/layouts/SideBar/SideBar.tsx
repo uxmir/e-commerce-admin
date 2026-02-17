@@ -2,20 +2,20 @@
 import { useLayout } from "@/app/features/SidebarProvider/SidebarProvider";
 import React, { useState } from "react";
 import { items } from "../../../types/nav";
-import { CatIcon, HomeIcon } from "lucide-react";
+import { CatIcon, HomeIcon, LayoutDashboard, ShoppingCart } from "lucide-react";
 import NavLink from "../../ui/NavItems/NavLink";
 const navItems: items[] = [
   {
     id: 1,
     item: "Home",
     link: "/home",
-    icon: HomeIcon,
+    icon: LayoutDashboard,
   },
   {
     id: 2,
-    item: "Product",
+    item: "Products",
     link: "/product",
-    icon: CatIcon,
+    icon: ShoppingCart,
   },
   {
     id: 3,
