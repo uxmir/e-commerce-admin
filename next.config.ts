@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'images.unsplash.com',
         port: '',
-        pathname: '/**', // এর মানে হলো এই হোস্টের সব ইমেজ এলাউড
+        pathname: '/**', 
       },
     ],
   },

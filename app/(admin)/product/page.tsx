@@ -1,10 +1,13 @@
 "use client";
 import Badge from "@/app/components/ui/Badge/Badge";
+import Button from "@/app/components/ui/Button/Button";
 import TableComponent from "@/app/components/ui/DataTable/TableComponent";
+import Drawer from "@/app/components/ui/Drawer/Drawer";
 import Input from "@/app/components/ui/Input/Input";
 import PaginationComponent from "@/app/components/ui/Pagination/PaginationComponent";
 import { useAppDispatch, useAppSelector } from "@/app/CustomHooks/api";
 import { useColorStatus } from "@/app/CustomHooks/useColorStatus";
+import { useDrawer } from "@/app/CustomHooks/useDrawer";
 import { usePagination } from "@/app/CustomHooks/usePaginaton";
 import { fetchAllData } from "@/app/store/ProductSlice";
 import { Products } from "@/app/types/product";
@@ -16,6 +19,7 @@ const page: React.FC = () => {
   const dispatch = useAppDispatch();
   const { data, loading } = useAppSelector((state) => state.product);
   const { getStyle } = useColorStatus();
+  const {drawerContainer,drawerOverlay,showDrawer,closeDrawer,showCreateDrawer,selectedData}=useDrawer(data)
   const [search, setSearch] = useState<string>("");
 
   useEffect(() => {
@@ -35,7 +39,7 @@ const page: React.FC = () => {
 
   const { currentPage, setCurrentPage, totalPage, paginatedData } =
     usePagination(filteredData);
-
+    
   //table columns
   const tableColumns = [
     {
@@ -98,7 +102,7 @@ const page: React.FC = () => {
   ];
   return (
     <div>
-      <div className="flex flex-col sm:flex-row justify-between items-center w-full mt-10 mb-6">
+      <div className="flex flex-col gap-y-6 sm:flex-row justify-between items-center w-full mt-10 mb-6">
         <div className=" w-full sm:w-[300px]">
           <Input
             inputType="text"
@@ -108,6 +112,12 @@ const page: React.FC = () => {
             onChange={(e: any) => setSearch(e.target.value)}
           />
         </div>
+        <Button
+        buttonType="button"
+        onEvent={showCreateDrawer}
+        >
+          Add Product
+        </Button>
       </div>
       <div>
         <TableComponent
@@ -121,6 +131,16 @@ const page: React.FC = () => {
           setCurrentPage={setCurrentPage}
         />
       </div>
+      {/* =====drawerSection======*/}
+      <Drawer 
+      position="right"
+      width="w-3/4 sm:w-1/2"
+      overlay={drawerOverlay}
+      container={drawerContainer}
+      close={closeDrawer}
+      >
+        mirmonir
+      </Drawer>
     </div>
   );
 };

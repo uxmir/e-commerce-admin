@@ -27,11 +27,11 @@ const Drawer: React.FC<drawerProps> = ({
       {overlay === true && (
         <div
           onClick={close}
-          className="w-full h-full bg-black/10 fixed top-0 left-0 right-0 z-[9999]"
+          className="w-full h-full bg-black/60 fixed top-0 left-0 right-0 z-[9999]"
         ></div>
       )}
       <div
-        className={`bg-white fixed ${width} h-full transition-all duration-500 top-0 z-[9999] ${position === "right" ? right : left}`}
+        className={`bg-white h-[100vh] overflow-y-auto p-2 sm:p-10 fixed ${width}  transition-all duration-500 top-0 z-[9999] ${position === "right" ? right : left}`}
       >
         {children}
       </div>

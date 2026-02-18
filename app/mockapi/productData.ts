@@ -42,7 +42,7 @@ export const productData: Products[] = [
   },
   {
     id: 5,
-    img: "https://images.unsplash.com/photo-1585333127302-c2c981846d3f?q=80&w=200&auto=format&fit=crop",
+    img: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=200&auto=format&fit=crop",
     name: "Cotton Blue T-Shirt",
     category: "Clothing",
     price: 25,
@@ -102,7 +102,7 @@ export const productData: Products[] = [
   },
   {
     id: 11,
-    img: "https://images.unsplash.com/photo-1586495764447-aa5733367ed2?q=80&w=200&auto=format&fit=crop",
+    img: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=200&auto=format&fit=crop",
     name: "Skincare Serum",
     category: "Beauty",
     price: 45,

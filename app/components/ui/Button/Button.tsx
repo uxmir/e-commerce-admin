@@ -19,7 +19,7 @@ const Button: React.FC<buttonProps> = ({
       <button
         type={buttonType === "submit" ? "submit" : "button"}
         onClick={onEvent}
-        className={`px-3 py-2 rounded-md cursor-pointer capitalize font-medium ${colorProps} ${width}`}
+        className={`px-3 py-2 w-full sm:w-auto rounded-md cursor-pointer capitalize font-medium ${colorProps} ${width}`}
       >
         {children}
       </button>

@@ -18,7 +18,6 @@ const appliedColor: Record<ColorStatus, string> = {
   selling:"bg-blue-200 text-blue-600",
   soldout:"bg-green-200 text-green-600"
 };
-
 export const useColorStatus = () => {
   const getStyle = (status: string) => {
     if (!status) return "bg-gray-200 text-gray-700";

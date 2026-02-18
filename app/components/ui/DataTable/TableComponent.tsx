@@ -20,7 +20,11 @@ interface tableProps {
   data: any[];
   sortIcon?: boolean;
 }
-const TableComponent: React.FC<tableProps> = ({ data, columns, sortIcon }) => {
+const TableComponent: React.FC<tableProps> = ({
+  data,
+  columns,
+  sortIcon,
+}) => {
   const { sortedData, sorting, handleSort } = useSorting(data);
   const [isSorting, setIsSorting] = useState<string | null>(null);
   const [check, setCheck] = useState<string | null>(null);
@@ -106,7 +110,7 @@ const TableComponent: React.FC<tableProps> = ({ data, columns, sortIcon }) => {
             sortedData?.map((row, index) => (
               <TableRow
                 key={index}
-                className={`bg-white dark:bg-[#1a163d] text-gray-600 dark:text-white capitalize hover:bg-gray-50   dark:hover:bg-transparent border-gray-200 dark:border-gray-400 ${index === sortedData.length - 1 ? "border-0" : "border-b"}`}
+                className={` bg-white dark:bg-[#1a163d] text-gray-600 dark:text-white capitalize hover:bg-gray-50   dark:hover:bg-transparent border-gray-200 dark:border-gray-400 ${index === sortedData.length - 1 ? "border-0" : "border-b"}`}
               >
                 {columns?.map((col, index) => (
                   <TableCell
