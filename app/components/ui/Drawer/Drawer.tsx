@@ -31,7 +31,7 @@ const Drawer: React.FC<drawerProps> = ({
         ></div>
       )}
       <div
-        className={`bg-white h-[100vh] overflow-y-auto p-2 sm:p-10 fixed ${width}  transition-all duration-500 top-0 z-[9999] ${position === "right" ? right : left}`}
+        className={`bg-white dark:bg-[#33304E] h-[100vh] overflow-y-auto p-2 sm:p-10 fixed ${width}  transition-all duration-500 top-0 z-[9999] ${position === "right" ? right : left}`}
       >
         {children}
       </div>

@@ -1,38 +1,168 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-const CreateForm: React.FC = () => {
+import Input from "@/app/components/ui/Input/Input";
+import Button from "@/app/components/ui/Button/Button";
+import FileUpload from "@/app/components/ui/FileUpload/FileUpload";
+import Heading from "@/app/components/ui/HeadingComponent/Heading";
+interface formProps {
+  close?: () => void;
+}
+const CreateForm: React.FC<formProps> = ({ close }) => {
+  const [preview, setPreview] = useState<string | null>(null);
   const formik = useFormik({
     initialValues: {
       name: "",
-      img:null as File|null,
-      category:"",
-      price:"",
-      sales_price:"",
-      stock:"",
-      status:""
+      img: null as File | string | null,
+      category: "",
+      price: 0,
+      sales_price: 0,
+      stock: 0,
+      status: "",
     },
     validationSchema: Yup.object({
       name: Yup.string().required("this feild is required"),
       img: Yup.mixed().required("This feild is required"),
       category: Yup.string().required("This feild is required"),
-      price: Yup.number().required("This feild is required"),
-      sales_price: Yup.string().required("This feild is required"),
-      stock: Yup.string().required("This feild is required"),
+      price: Yup.number()
+        .typeError("must be number")
+        .required("This feild is required"),
+      sales_price: Yup.number()
+        .typeError("must be number")
+        .required("This feild is required"),
+      stock: Yup.number()
+        .typeError("must be number")
+        .required("This feild is required"),
       status: Yup.string().required("This feild is required"),
     }),
-    onSubmit: async () => {},
+    onSubmit: async (values) => {
+      try {
+        let payload = { ...values };
+        if (values.img instanceof File) {
+          const base64 = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(values.img as File);
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = (error) => reject(error);
+          });
+          payload.img = base64;
+        }
+        //api is here like await dispatch(createGateway(payload as any)).unwrap();
+        console.log(values);
+        close;
+      } catch (error) {
+        console.error(error);
+      }
+    },
   });
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const file = e.target.files?.[0];
+    if (file) {
+      formik.setFieldValue("img", file as File);
+      setPreview(URL.createObjectURL(file));
+    }
+  };
   return (
     <>
-    <div>
-    <form onSubmit={formik.handleSubmit}>
-    <div className="flex flex-col sm:flex-row ">
-
-    </div>
-    </form>
-    </div>
+      <div>
+        <Heading headingValue="Create Product" />
+        <form onSubmit={formik.handleSubmit} className="space-y-4 mt-10">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="w-full">
+              <Input
+                label=" ProductName"
+                inputName="name"
+                inputType="text"
+                placeholder="Enter Here...."
+                {...formik.getFieldProps("name")}
+                errors={formik.errors.name && formik.touched.name}
+                errorValue={`${formik.errors.name}`}
+              />
+            </div>
+            <div className="w-full">
+              <Input
+                label="Category"
+                inputName="category"
+                inputType="text"
+                placeholder="Enter Here...."
+                {...formik.getFieldProps("category")}
+                errors={formik.errors.category && formik.touched.category}
+                errorValue={`${formik.errors.category}`}
+              />
+            </div>
+          </div>
+          <FileUpload
+            errors={formik.errors.img && formik.touched.img}
+            errorsValue={`${formik.errors.img}`}
+            fileName={`${(formik?.values?.img as File)?.name}`}
+            preview={preview}
+            onChange={handleFileChange}
+          />
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="w-full">
+              <Input
+                label=" Price"
+                inputName="price"
+                inputType="number"
+                placeholder="0"
+                {...formik.getFieldProps("price")}
+                errors={formik.errors.price && formik.touched.price}
+                errorValue={`${formik.errors.price}`}
+              />
+            </div>
+            <div className="w-full">
+              <Input
+                label="Sales Price"
+                inputName="sales_price"
+                inputType="number"
+                placeholder="0"
+                {...formik.getFieldProps("sales_price")}
+                errors={formik.errors.sales_price && formik.touched.sales_price}
+                errorValue={`${formik.errors.sales_price}`}
+              />
+            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="w-full">
+              <Input
+                label="Stock"
+                inputName="stock"
+                inputType="number"
+                placeholder="0"
+                {...formik.getFieldProps("stock")}
+                errors={formik.errors.stock && formik.touched.stock}
+                errorValue={`${formik.errors.stock}`}
+              />
+            </div>
+            <div className="w-full">
+              <Input
+                label="Status"
+                inputName="status"
+                inputType="text"
+                placeholder="Enter Here...."
+                {...formik.getFieldProps("status")}
+                errors={formik.errors.status && formik.touched.status}
+                errorValue={`${formik.errors.status}`}
+              />
+            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-4 mt-5 w-full">
+            <Button
+              width="!w-full"
+              colorProps="bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 hover:dark:bg-gray-600 text-gray-600 dark:text-white"
+              onEvent={close}
+              buttonType="button"
+            >
+              Submit
+            </Button>
+            <Button width="!w-full" buttonType="submit">
+              Submit
+            </Button>
+          </div>
+        </form>
+      </div>
     </>
   );
 };

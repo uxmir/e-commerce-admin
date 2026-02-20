@@ -14,6 +14,7 @@ import { Products } from "@/app/types/product";
 import { SquarePen, Trash } from "lucide-react";
 import Image from "next/image";
 import React, { useState, useEffect, useMemo } from "react";
+import CreateForm from "./CreateForm";
 const page: React.FC = () => {
 
   const dispatch = useAppDispatch();
@@ -139,7 +140,7 @@ const page: React.FC = () => {
       container={drawerContainer}
       close={closeDrawer}
       >
-        mirmonir
+        <CreateForm close={closeDrawer}/>
       </Drawer>
     </div>
   );
