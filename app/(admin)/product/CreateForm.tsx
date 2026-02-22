@@ -6,11 +6,13 @@ import Input from "@/app/components/ui/Input/Input";
 import Button from "@/app/components/ui/Button/Button";
 import FileUpload from "@/app/components/ui/FileUpload/FileUpload";
 import Heading from "@/app/components/ui/HeadingComponent/Heading";
+import { useFileUpload } from "@/app/CustomHooks/useFlieUpload";
 interface formProps {
   close?: () => void;
 }
 const CreateForm: React.FC<formProps> = ({ close }) => {
-  const [preview, setPreview] = useState<string | null>(null);
+  // const [preview, setPreview] = useState<string | null>(null);
+  const {preview,handleFileChange,handleImageToString}=useFileUpload()
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -37,33 +39,15 @@ const CreateForm: React.FC<formProps> = ({ close }) => {
       status: Yup.string().required("This feild is required"),
     }),
     onSubmit: async (values) => {
-      try {
-        let payload = { ...values };
-        if (values.img instanceof File) {
-          const base64 = await new Promise<string>((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(values.img as File);
-            reader.onload = () => resolve(reader.result as string);
-            reader.onerror = (error) => reject(error);
-          });
-          payload.img = base64;
-        }
-        //api is here like await dispatch(createGateway(payload as any)).unwrap();
-        console.log(values);
-        close;
-      } catch (error) {
-        console.error(error);
-      }
+    const base64Image= await handleImageToString(values,"img")
+     //api is here
+     const finalPayload = { 
+      ...values, 
+      img: base64Image 
+    };
+    console.log("Final Data for Server:", finalPayload);
     },
   });
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    const file = e.target.files?.[0];
-    if (file) {
-      formik.setFieldValue("img", file as File);
-      setPreview(URL.createObjectURL(file));
-    }
-  };
   return (
     <>
       <div>
@@ -98,7 +82,7 @@ const CreateForm: React.FC<formProps> = ({ close }) => {
             errorsValue={`${formik.errors.img}`}
             fileName={`${(formik?.values?.img as File)?.name}`}
             preview={preview}
-            onChange={handleFileChange}
+            onChange={(e)=>handleFileChange(e,"img",formik.setFieldValue)}
           />
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="w-full">
