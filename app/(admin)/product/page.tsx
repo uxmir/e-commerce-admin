@@ -15,12 +15,21 @@ import { SquarePen, Trash } from "lucide-react";
 import Image from "next/image";
 import React, { useState, useEffect, useMemo } from "react";
 import CreateForm from "./CreateForm";
+import EditForm from "./EditForm";
 const page: React.FC = () => {
-
+  // const [drawerConfig,setDrawerConfig]=useState<string>("")
   const dispatch = useAppDispatch();
   const { data, loading } = useAppSelector((state) => state.product);
   const { getStyle } = useColorStatus();
-  const {drawerContainer,drawerOverlay,showDrawer,closeDrawer,showCreateDrawer,selectedData}=useDrawer(data)
+  const {
+    drawerContainer,
+    drawerOverlay,
+    showDrawer,
+    closeDrawer,
+    showCreateDrawer,
+    drawerConfig,
+    selectedData,
+  } = useDrawer(data);
   const [search, setSearch] = useState<string>("");
 
   useEffect(() => {
@@ -31,7 +40,7 @@ const page: React.FC = () => {
   const filteredData = useMemo(() => {
     if (!data) return [];
     return data?.filter(
-      (d:Products) =>
+      (d: Products) =>
         d.name.toLowerCase().includes(search.toLowerCase()) ||
         d.category.toLowerCase().includes(search.toLowerCase()) ||
         d.status.toLowerCase().includes(search.toLowerCase()),
@@ -40,28 +49,32 @@ const page: React.FC = () => {
 
   const { currentPage, setCurrentPage, totalPage, paginatedData } =
     usePagination(filteredData);
-    
+
+  // //handleDrawerConfig
+  // const handleDrawerConfig=(value:string)=>{
+  // setDrawerConfig(value)
+  // }
   //table columns
   const tableColumns = [
     {
       header: "Name",
       key: "name",
-      render:(row:any)=>(
+      render: (row: any) => (
         <>
-        <div className="flex gap-x-3 items-center">
-         <div className="w-8 h-5 ">
-          <Image
-          src={row?.img}
-          alt={`${row?.name}`}
-          width={0}
-          height={0}
-          className="w-full h-full object-cover"
-          />
-        </div>  
-        <span>{row?.name}</span>
-        </div>
+          <div className="flex gap-x-3 items-center">
+            <div className="w-8 h-5 ">
+              <Image
+                src={row?.img}
+                alt={`${row?.name}`}
+                width={0}
+                height={0}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <span>{row?.name}</span>
+          </div>
         </>
-      )
+      ),
     },
     {
       header: "Category",
@@ -94,7 +107,11 @@ const page: React.FC = () => {
       render: (row: any) => (
         <>
           <div className="flex justify-end items-center gap-x-3">
-            <SquarePen size={18} className="cursor-pointer text-blue-600" />
+            <SquarePen
+              size={18}
+              onClick={() => showDrawer(row?.id, "edit")}
+              className="cursor-pointer text-blue-600"
+            />
             <Trash size={18} className="cursor-pointer text-red-600" />
           </div>
         </>
@@ -113,10 +130,7 @@ const page: React.FC = () => {
             onChange={(e: any) => setSearch(e.target.value)}
           />
         </div>
-        <Button
-        buttonType="button"
-        onEvent={showCreateDrawer}
-        >
+        <Button buttonType="button" onEvent={() => showCreateDrawer("create")}>
           Add Product
         </Button>
       </div>
@@ -133,14 +147,34 @@ const page: React.FC = () => {
         />
       </div>
       {/* =====drawerSection======*/}
-      <Drawer 
-      position="right"
-      width="w-3/4 sm:w-1/2"
-      overlay={drawerOverlay}
-      container={drawerContainer}
-      close={closeDrawer}
+      <Drawer
+        position="right"
+        width="w-3/4 sm:w-1/2"
+        overlay={drawerOverlay}
+        container={drawerContainer}
+        close={closeDrawer}
       >
-        <CreateForm close={closeDrawer}/>
+        {drawerConfig === "create" ? (
+          <CreateForm close={closeDrawer} />
+        ) : (
+          <>
+            <EditForm
+              values={(() => {
+                const data = selectedData;
+                return {
+                  name: data?.name ?? "",
+                  img: data?.img ?? (null as File | string | null),
+                  category: data?.category ?? "",
+                  price: data?.price ?? 0,
+                  sales_price: data?.sales_price ?? 0,
+                  stock: data?.stock ?? 0,
+                  status: data?.status ?? "",
+                };
+              })()}
+              close={closeDrawer}
+            />
+          </>
+        )}
       </Drawer>
     </div>
   );

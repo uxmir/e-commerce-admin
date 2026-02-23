@@ -9,19 +9,13 @@ import Heading from "@/app/components/ui/HeadingComponent/Heading";
 import { useFileUpload } from "@/app/CustomHooks/useFlieUpload";
 interface formProps {
   close?: () => void;
+  values:any
 }
-const CreateForm: React.FC<formProps> = ({ close }) => {
+const EditForm: React.FC<formProps> = ({ close,values }) => {
   const {preview,handleFileChange,handleImageToString}=useFileUpload()
   const formik = useFormik({
-    initialValues: {
-      name: "",
-      img: null as File | string | null,
-      category: "",
-      price: 0,
-      sales_price: 0,
-      stock: 0,
-      status: "",
-    },
+    initialValues:values,
+    enableReinitialize:true, 
     validationSchema: Yup.object({
       name: Yup.string().required("this feild is required"),
       img: Yup.mixed().required("This feild is required"),
@@ -79,8 +73,8 @@ const CreateForm: React.FC<formProps> = ({ close }) => {
           <FileUpload
             errors={formik.errors.img && formik.touched.img}
             errorsValue={`${formik.errors.img}`}
-            fileName={`${(formik?.values?.img as File)?.name}`}
-            preview={preview}
+            fileName={`${(formik?.values?.img as File)?.name || "dummy image"}`}
+            preview={preview || formik?.values?.img}
             onChange={(e)=>handleFileChange(e,"img",formik.setFieldValue)}
           />
           <div className="flex flex-col sm:flex-row gap-4">
@@ -150,4 +144,4 @@ const CreateForm: React.FC<formProps> = ({ close }) => {
   );
 };
 
-export default CreateForm;
+export default EditForm;
