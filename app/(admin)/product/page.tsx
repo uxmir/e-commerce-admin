@@ -17,7 +17,6 @@ import React, { useState, useEffect, useMemo } from "react";
 import CreateForm from "./CreateForm";
 import EditForm from "./EditForm";
 const page: React.FC = () => {
-  // const [drawerConfig,setDrawerConfig]=useState<string>("")
   const dispatch = useAppDispatch();
   const { data, loading } = useAppSelector((state) => state.product);
   const { getStyle } = useColorStatus();
@@ -50,10 +49,6 @@ const page: React.FC = () => {
   const { currentPage, setCurrentPage, totalPage, paginatedData } =
     usePagination(filteredData);
 
-  // //handleDrawerConfig
-  // const handleDrawerConfig=(value:string)=>{
-  // setDrawerConfig(value)
-  // }
   //table columns
   const tableColumns = [
     {
