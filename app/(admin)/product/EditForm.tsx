@@ -143,5 +143,4 @@ const EditForm: React.FC<formProps> = ({ close,values }) => {
     </>
   );
 };
-
 export default EditForm;

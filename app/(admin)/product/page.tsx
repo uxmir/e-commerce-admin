@@ -16,6 +16,8 @@ import Image from "next/image";
 import React, { useState, useEffect, useMemo } from "react";
 import CreateForm from "./CreateForm";
 import EditForm from "./EditForm";
+import Dialog from "@/app/components/ui/Dialog/Dialog";
+import { useDialogDelete } from "@/app/CustomHooks/useDialogDelete";
 const page: React.FC = () => {
   const dispatch = useAppDispatch();
   const { data, loading } = useAppSelector((state) => state.product);
@@ -49,6 +51,13 @@ const page: React.FC = () => {
   const { currentPage, setCurrentPage, totalPage, paginatedData } =
     usePagination(filteredData);
 
+  //for delete logic
+  const { dialog, showDialog, closeDialog, deleteData } = useDialogDelete(data);
+  //handle delete
+  const handleConfirmDelete = (value: number) => {
+    //api is here
+    console.log(value);
+  };
   //table columns
   const tableColumns = [
     {
@@ -107,7 +116,11 @@ const page: React.FC = () => {
               onClick={() => showDrawer(row?.id, "edit")}
               className="cursor-pointer text-blue-600"
             />
-            <Trash size={18} className="cursor-pointer text-red-600" />
+            <Trash
+              onClick={() => showDialog(row?.id)}
+              size={18}
+              className="cursor-pointer text-red-600"
+            />
           </div>
         </>
       ),
@@ -171,6 +184,51 @@ const page: React.FC = () => {
           </>
         )}
       </Drawer>
+      {/* =====delete dialog====*/}
+     {dialog && (
+  <Dialog width=" w-[290px] sm:w-[550px]" close={closeDialog}>
+    {/* Main Container: Light mode-e white ebong Dark mode-e slate-900 */}
+    <div className="p-6 rounded-xl bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 shadow-xl transition-all">
+      
+      {/* Icon & Title Section */}
+      <div className="flex flex-col items-center text-center mb-6">
+        <div className="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mb-4">
+          <svg 
+            className="w-6 h-6 text-red-600 dark:text-red-500" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          Are you sure?
+        </h3>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+          This action cannot be undone. All data will be permanently removed.
+        </p>
+      </div>
+            <div className="flex gap-3 flex-col sm:flex-row w-full">
+            <Button
+            buttonType="button"
+            customClass="flex-1 px-4 py-2 text-sm font-medium !text-gray-700 dark:!text-gray-300 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 rounded-lg transition-colors"
+            onEvent={closeDialog}
+          >
+            Cancell
+          </Button>
+          <Button
+            buttonType="button"
+            width="w-full flex-1" 
+            onEvent={() => handleConfirmDelete(deleteData)}
+          >
+            Confirm Delete
+          </Button>
+        </div>
+    </div>
+  </Dialog>
+)}
     </div>
   );
 };
