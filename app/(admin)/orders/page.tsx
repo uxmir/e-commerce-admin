@@ -20,8 +20,6 @@ const page: React.FC = () => {
     <>
       <div className="">
         <Heading headingValue="Orders" />
-        {/*=============
-        {/*====== order====== */}
         <div className="mt-4 w-full">
           <OverviewTable />
         </div>
