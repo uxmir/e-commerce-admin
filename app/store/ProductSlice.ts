@@ -1,5 +1,5 @@
 
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { asyncThunkCreator, createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Products } from "../types/product";
 import { productData } from "../mockapi/productData";
 
@@ -14,16 +14,17 @@ const initialState: productState = {
   error: null,
 };
 //api thunk
-export const fetchAllData = createAsyncThunk<Products[]>(
+export const fetchAllData = createAsyncThunk(
   "product/productall",
   async (_, { rejectWithValue }) => {
   try {
-    return productData;
+    return productData.reverse();
   } catch (error) {
     return rejectWithValue('data not found')
   }
   },
 );
+
 //creating slice
 const ProductSlice = createSlice({
   name: "product",
@@ -44,8 +45,9 @@ const ProductSlice = createSlice({
       )
       .addCase(fetchAllData.rejected, (state: any) => {
         state.loading = false;
-        state.error = state.error.message || "Something went wrong";
-      });
+        state.error = state?.error?.message || "Something went wrong";
+      })
+      /*create*/
   },
 });
 

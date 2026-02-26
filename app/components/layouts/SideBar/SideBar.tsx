@@ -2,7 +2,7 @@
 import { useLayout } from "@/app/features/SidebarProvider/SidebarProvider";
 import React, { useState } from "react";
 import { items } from "../../../types/nav";
-import { CatIcon, HomeIcon, LayoutDashboard, ShoppingCart } from "lucide-react";
+import { CatIcon, Clock, HomeIcon, LayoutDashboard, ShoppingCart } from "lucide-react";
 import NavLink from "../../ui/NavItems/NavLink";
 const navItems: items[] = [
   {
@@ -19,21 +19,9 @@ const navItems: items[] = [
   },
   {
     id: 3,
-    item: "Category",
-    link: "#",
-    icon: HomeIcon,
-    childs: [
-      {
-        id: 1,
-        data: "Orders",
-        child_link: "#",
-      },
-      {
-        id: 2,
-        data: "Orders",
-        child_link: "/product",
-      },
-    ],
+    item: "orders",
+    link: "/orders",
+    icon: Clock,
   },
 ];
 const SideBar: React.FC = () => {

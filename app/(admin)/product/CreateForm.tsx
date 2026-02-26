@@ -45,6 +45,7 @@ const CreateForm: React.FC<formProps> = ({ close }) => {
       img: base64Image 
     };
     console.log("Final Data for Server:", finalPayload);
+
     },
   });
   return (
